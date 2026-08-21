@@ -645,7 +645,33 @@ function App() {
   }
 }
 
-// Handle the phone/browser back button
+// Handle phone/browser back button only when product is open
+useEffect(() => {
+  const handlePopState = () => {
+    // Only close the product interface if it is actually open
+    if (!selectedProduct) return
+
+    setSelectedProduct(null)
+
+    const savedPosition =
+      sessionStorage.getItem('productScrollPosition')
+
+    if (savedPosition) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: Number(savedPosition),
+          behavior: 'instant',
+        })
+      }, 0)
+    }
+  }
+
+  window.addEventListener('popstate', handlePopState)
+
+  return () => {
+    window.removeEventListener('popstate', handlePopState)
+  }
+}, [selectedProduct])
 
 
   const buyNow = () => {
