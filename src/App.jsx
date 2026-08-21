@@ -375,6 +375,51 @@ function App() {
   const t = translations[language]
   const ui = interfaceText[language]
 
+  useEffect(() => {
+  const productTranslation = selectedProduct
+    ? translations[language]?.products?.[
+        selectedProduct.translationKey
+      ]
+    : null
+
+  const siteTitle = 'Uma Z&S Beauty'
+
+  if (selectedProduct && productTranslation) {
+    const productName =
+      productTranslation.name ||
+      selectedProduct.brand
+
+    const productDescription =
+      productTranslation.description ||
+      selectedProduct.description
+
+    document.title = `${productName} | ${selectedProduct.brand} | ${siteTitle}`
+
+    const descriptionTag =
+      document.querySelector('meta[name="description"]')
+
+    if (descriptionTag) {
+      descriptionTag.setAttribute(
+        'content',
+        productDescription
+      )
+    }
+  } else {
+    document.title =
+      'Uma Z&S Beauty — Makeup, Face Care & Beauty Products'
+
+    const descriptionTag =
+      document.querySelector('meta[name="description"]')
+
+    if (descriptionTag) {
+      descriptionTag.setAttribute(
+        'content',
+        'Uma Z&S Beauty — Discover makeup, face care, perfumes and beauty products in Morocco.'
+      )
+    }
+  }
+}, [selectedProduct, language])
+
   const orders = []
 
   // ================= CART =================
