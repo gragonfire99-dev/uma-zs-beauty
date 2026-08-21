@@ -335,6 +335,20 @@ const interfaceText = {
   },
 }
 
+const createProductSlug = (product) => {
+  const name =
+    translations.en.products?.[product.translationKey]?.name ||
+    product.brand ||
+    product.translationKey
+
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
 function App() {
   const [category, setCategory] = useState('All')
   const [cartOpen, setCartOpen] = useState(false)
@@ -376,51 +390,114 @@ function App() {
   const ui = interfaceText[language]
 
   useEffect(() => {
-  const productTranslation = selectedProduct
-    ? translations[language]?.products?.[
-        selectedProduct.translationKey
-      ]
-    : null
-
-  const siteTitle = 'Uma Z&S Beauty'
-
-  if (selectedProduct && productTranslation) {
-    const productName =
-      productTranslation.name ||
-      selectedProduct.brand
-
-    const productDescription =
-      productTranslation.description ||
-      selectedProduct.description
-
-    document.title = `${productName} | ${selectedProduct.brand} | ${siteTitle}`
-
-    const descriptionTag =
-      document.querySelector('meta[name="description"]')
-
-    if (descriptionTag) {
-      descriptionTag.setAttribute(
-        'content',
-        productDescription
-      )
-    }
-  } else {
-    document.title =
-      'Uma Z&S Beauty — Makeup, Face Care & Beauty Products'
-
-    const descriptionTag =
-      document.querySelector('meta[name="description"]')
-
-    if (descriptionTag) {
-      descriptionTag.setAttribute(
-        'content',
-        'Uma Z&S Beauty — Discover makeup, face care, perfumes and beauty products in Morocco.'
-      )
-    }
+  if (!selectedProduct) {
+    document.title = 'Uma Z&S Beauty'
+    return
   }
-}, [selectedProduct, language])
 
-  const orders = []
+  const productTranslation =
+    t.products?.[selectedProduct.translationKey]
+
+  const productName =
+    productTranslation?.name ||
+    selectedProduct.brand
+
+  const productDescription =
+    productTranslation?.description ||
+    selectedProduct.description
+
+  const slug = createProductSlug(selectedProduct)
+
+  const productUrl =
+    `${window.location.origin}/products/${slug}`
+
+  document.title =
+    `${productName} | Uma Z&S Beauty`
+
+  const setMeta = (name, content) => {
+    let meta = document.querySelector(
+      `meta[name="${name}"]`
+    )
+
+    if (!meta) {
+      meta = document.createElement('meta')
+      meta.setAttribute('name', name)
+      document.head.appendChild(meta)
+    }
+
+    meta.setAttribute('content', content)
+  }
+
+  setMeta(
+    'description',
+    productDescription
+  )
+
+  let canonical =
+    document.querySelector(
+      'link[rel="canonical"]'
+    )
+
+  if (!canonical) {
+    canonical = document.createElement('link')
+    canonical.setAttribute('rel', 'canonical')
+    document.head.appendChild(canonical)
+  }
+
+  canonical.setAttribute(
+    'href',
+    productUrl
+  )
+
+  let structuredData =
+    document.querySelector(
+      '#product-structured-data'
+    )
+
+  if (!structuredData) {
+    structuredData =
+      document.createElement('script')
+
+    structuredData.id =
+      'product-structured-data'
+
+    structuredData.type =
+      'application/ld+json'
+
+    document.head.appendChild(
+      structuredData
+    )
+  }
+
+  structuredData.textContent =
+    JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: productName,
+      description: productDescription,
+      image: [
+        `${window.location.origin}${selectedProduct.image}`,
+      ],
+      brand: {
+        '@type': 'Brand',
+        name: selectedProduct.brand,
+      },
+      offers: {
+        '@type': 'Offer',
+        url: productUrl,
+        priceCurrency: 'MAD',
+        price: selectedProduct.price,
+        availability:
+          selectedProduct.stock
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/OutOfStock',
+      },
+    })
+
+  return () => {
+    document.title = 'Uma Z&S Beauty'
+  }
+}, [selectedProduct, language, t])
 
   // ================= CART =================
 
@@ -713,10 +790,10 @@ useEffect(() => {
   setSelectedProduct(null)
 
   window.history.replaceState(
-    null,
-    '',
-    '/'
-  )
+  null,
+  '',
+  '/'
+)
 
   if (savedPosition) {
     setTimeout(() => {
