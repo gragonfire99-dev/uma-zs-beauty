@@ -620,23 +620,20 @@ function App() {
   setReviewSuccess('')
 }
 
-  const closeProduct = () => {
+ const closeProduct = () => {
+  const savedPosition =
+    sessionStorage.getItem(
+      'productScrollPosition'
+    )
+
   setSelectedProduct(null)
 
-  const savedPosition =
-    sessionStorage.getItem('productScrollPosition')
-
-  // Remove the product hash without navigating back
-  if (
-    window.location.hash.startsWith('#product-')
-  ) {
-    window.history.replaceState(
-      null,
-      '',
-      window.location.pathname +
-        window.location.search
-    )
-  }
+  window.history.replaceState(
+    null,
+    '',
+    window.location.pathname +
+      window.location.search
+  )
 
   if (savedPosition) {
     setTimeout(() => {
@@ -644,44 +641,12 @@ function App() {
         top: Number(savedPosition),
         behavior: 'instant',
       })
-    }, 0)
+    }, 50)
   }
 }
 
 // Handle the phone/browser back button
-useEffect(() => {
-  const handlePopState = () => {
-    if (!selectedProduct) return
 
-    setSelectedProduct(null)
-
-    const savedPosition =
-      sessionStorage.getItem(
-        'productScrollPosition'
-      )
-
-    if (savedPosition) {
-      setTimeout(() => {
-        window.scrollTo({
-          top: Number(savedPosition),
-          behavior: 'instant',
-        })
-      }, 0)
-    }
-  }
-
-  window.addEventListener(
-    'popstate',
-    handlePopState
-  )
-
-  return () => {
-    window.removeEventListener(
-      'popstate',
-      handlePopState
-    )
-  }
-}, [selectedProduct])
 
   const buyNow = () => {
     if (!selectedProduct) return
