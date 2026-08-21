@@ -8,6 +8,13 @@ const translations = {
       contact: "Contact",
     },
 
+    pwa: {
+  title: 'Install Uma Z&S Beauty',
+  description: 'Add our app to your phone for a faster experience.',
+  install: 'Install',
+  close: 'Close',
+},
+
     hero: {
       welcome: "WELCOME TO",
       title: "Uma Z&S",
@@ -197,6 +204,13 @@ const translations = {
       about: "À propos",
       contact: "Contact",
     },
+
+    pwa: {
+  title: 'Installer Uma Z&S Beauty',
+  description: 'Ajoutez notre application à votre téléphone pour une expérience plus rapide.',
+  install: 'Installer',
+  close: 'Fermer',
+},
 
     hero: {
       welcome: "BIENVENUE CHEZ",
@@ -393,6 +407,13 @@ const translations = {
       about: "من نحن",
       contact: "اتصل بنا",
     },
+ 
+pwa: {
+  title: 'تثبيت Uma Z&S Beauty',
+  description: 'أضف تطبيقنا إلى هاتفك لتجربة أسرع وأسهل.',
+  install: 'تثبيت',
+  close: 'إغلاق',
+},
 
     hero: {
       welcome: "مرحبًا بكم في",
