@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import translations from './translations'
 
 const WHATSAPP_NUMBER = '212XXXXXXXXX'
@@ -598,27 +598,39 @@ function App() {
   }
 
   const openProduct = (product) => {
-    sessionStorage.setItem(
-      'productScrollPosition',
-      window.scrollY.toString()
-    )
+  sessionStorage.setItem(
+    'productScrollPosition',
+    window.scrollY.toString()
+  )
 
-    setSelectedProduct(product)
-    setSelectedQuantity(1)
+  // Create a browser history entry for the product page
+  window.history.pushState(
+    { productId: product.id },
+    '',
+    `#product-${product.id}`
+  )
 
-    setReviewName('')
-    setReviewComment('')
-    setReviewRating(5)
-    setReviewError('')
-    setReviewSuccess('')
-  }
+  setSelectedProduct(product)
+  setSelectedQuantity(1)
+
+  setReviewName('')
+  setReviewComment('')
+  setReviewRating(5)
+  setReviewError('')
+  setReviewSuccess('')
+}
 
   const closeProduct = () => {
+  setSelectedProduct(null)
+
+  useEffect(() => {
+  const handlePopState = () => {
     setSelectedProduct(null)
 
-    const savedPosition = sessionStorage.getItem(
-      'productScrollPosition'
-    )
+    const savedPosition =
+      sessionStorage.getItem(
+        'productScrollPosition'
+      )
 
     if (savedPosition) {
       setTimeout(() => {
@@ -629,6 +641,41 @@ function App() {
       }, 0)
     }
   }
+
+  window.addEventListener(
+    'popstate',
+    handlePopState
+  )
+
+  return () => {
+    window.removeEventListener(
+      'popstate',
+      handlePopState
+    )
+  }
+}, [])
+
+  // Remove the product history entry
+  if (
+    window.history.state &&
+    window.history.state.productId
+  ) {
+    window.history.back()
+  }
+
+  const savedPosition = sessionStorage.getItem(
+    'productScrollPosition'
+  )
+
+  if (savedPosition) {
+    setTimeout(() => {
+      window.scrollTo({
+        top: Number(savedPosition),
+        behavior: 'instant',
+      })
+    }, 0)
+  }
+}
 
   const buyNow = () => {
     if (!selectedProduct) return
