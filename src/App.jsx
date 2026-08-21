@@ -642,17 +642,35 @@ function App() {
       })
   }
 
-  const openProduct = (product) => {
+  const createProductSlug = (product) => {
+  const productTranslation =
+    translations[language]?.products?.[
+      product.translationKey
+    ]
+
+  const productName =
+    productTranslation?.name ||
+    product.brand ||
+    product.translationKey
+
+  return `${product.brand}-${productName}-${product.volume}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+const openProduct = (product) => {
   sessionStorage.setItem(
     'productScrollPosition',
     window.scrollY.toString()
   )
 
-  // Create a browser history entry for the product page
+  const slug = createProductSlug(product)
+
   window.history.pushState(
     { productId: product.id },
     '',
-    `#product-${product.id}`
+    `/products/${slug}`
   )
 
   setSelectedProduct(product)
@@ -665,6 +683,27 @@ function App() {
   setReviewSuccess('')
 }
 
+useEffect(() => {
+  const path = window.location.pathname
+
+  if (!path.startsWith('/products/')) {
+    return
+  }
+
+  const slug = path
+    .replace('/products/', '')
+    .replace(/\/$/, '')
+
+  const product = products.find(
+    (item) => createProductSlug(item) === slug
+  )
+
+  if (product) {
+    setSelectedProduct(product)
+    setSelectedQuantity(1)
+  }
+}, [])
+
  const closeProduct = () => {
   const savedPosition =
     sessionStorage.getItem(
@@ -676,8 +715,7 @@ function App() {
   window.history.replaceState(
     null,
     '',
-    window.location.pathname +
-      window.location.search
+    '/'
   )
 
   if (savedPosition) {
