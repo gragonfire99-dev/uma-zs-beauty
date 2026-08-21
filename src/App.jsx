@@ -623,7 +623,30 @@ function App() {
   const closeProduct = () => {
   setSelectedProduct(null)
 
-  useEffect(() => {
+  // Remove the product history entry
+  if (
+    window.history.state &&
+    window.history.state.productId
+  ) {
+    window.history.back()
+  }
+
+  const savedPosition = sessionStorage.getItem(
+    'productScrollPosition'
+  )
+
+  if (savedPosition) {
+    setTimeout(() => {
+      window.scrollTo({
+        top: Number(savedPosition),
+        behavior: 'instant',
+      })
+    }, 0)
+  }
+}
+
+// Handle the phone/browser back button
+useEffect(() => {
   const handlePopState = () => {
     setSelectedProduct(null)
 
@@ -654,28 +677,6 @@ function App() {
     )
   }
 }, [])
-
-  // Remove the product history entry
-  if (
-    window.history.state &&
-    window.history.state.productId
-  ) {
-    window.history.back()
-  }
-
-  const savedPosition = sessionStorage.getItem(
-    'productScrollPosition'
-  )
-
-  if (savedPosition) {
-    setTimeout(() => {
-      window.scrollTo({
-        top: Number(savedPosition),
-        behavior: 'instant',
-      })
-    }, 0)
-  }
-}
 
   const buyNow = () => {
     if (!selectedProduct) return
