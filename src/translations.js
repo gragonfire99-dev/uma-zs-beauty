@@ -129,6 +129,57 @@ const translations = {
       continue: "Continue Shopping",
     },
 
+    checkout: {
+      title: "Complete Your Order",
+      customerInformation: "Customer Information",
+      fullName: "Full Name",
+      city: "City",
+      searchCity: "Search for your city...",
+      address: "Detailed Address",
+      addressPlaceholder: "Enter your full address",
+      phone: "Phone Number",
+      phonePlaceholder: "Enter your phone number",
+      quantity: "Quantity",
+      delivery: "Delivery",
+      freeDelivery: "Free",
+      deliveryFee: "40 MAD",
+      freeDeliveryIn: "Free delivery in Fes",
+      deliveryToOtherCities: "Delivery to other cities",
+      subtotal: "Subtotal",
+      total: "Total",
+      orderNow: "Place Order",
+      completeOrder: "Complete Order",
+      whatsapp: "Order via WhatsApp",
+      close: "Close",
+      required: "This field is required",
+      invalidPhone: "Please enter a valid phone number",
+      selectCity: "Please select your city",
+      orderSuccess:
+        "Your order information is ready to be sent via WhatsApp.",
+      noProducts:
+        "There are no products in your order.",
+    },
+
+    productBenefits: {
+      fastDelivery: "Fast & Reliable Delivery",
+      cashOnDelivery: "Cash on Delivery",
+      highQuality: "High Quality Product",
+    },
+
+    whatsapp: {
+      newOrder: "NEW ORDER",
+      product: "Product",
+      quantity: "Quantity",
+      price: "Product Price",
+      delivery: "Delivery",
+      total: "Total",
+      customer: "Customer",
+      name: "Name",
+      city: "City",
+      address: "Address",
+      phone: "Phone",
+    },
+
     footer: {
       description: "Beauty & Accessories",
       instagram: "Instagram",
@@ -271,6 +322,58 @@ const translations = {
       emptyDescription:
         "Ajoutez des produits à votre panier et ils apparaîtront ici.",
       continue: "Continuer mes achats",
+    },
+
+    checkout: {
+      title: "Finaliser votre commande",
+      customerInformation: "Informations du client",
+      fullName: "Nom complet",
+      city: "Ville",
+      searchCity: "Rechercher votre ville...",
+      address: "Adresse détaillée",
+      addressPlaceholder: "Entrez votre adresse complète",
+      phone: "Numéro de téléphone",
+      phonePlaceholder: "Entrez votre numéro de téléphone",
+      quantity: "Quantité",
+      delivery: "Livraison",
+      freeDelivery: "Gratuite",
+      deliveryFee: "40 MAD",
+      freeDeliveryIn: "Livraison gratuite à Fès",
+      deliveryToOtherCities: "Livraison vers les autres villes",
+      subtotal: "Sous-total",
+      total: "Total",
+      orderNow: "Commander",
+      completeOrder: "Finaliser la commande",
+      whatsapp: "Commander via WhatsApp",
+      close: "Fermer",
+      required: "Ce champ est obligatoire",
+      invalidPhone:
+        "Veuillez entrer un numéro de téléphone valide",
+      selectCity: "Veuillez sélectionner votre ville",
+      orderSuccess:
+        "Les informations de votre commande sont prêtes à être envoyées via WhatsApp.",
+      noProducts:
+        "Aucun produit dans votre commande.",
+    },
+
+    productBenefits: {
+      fastDelivery: "Livraison rapide et fiable",
+      cashOnDelivery: "Paiement à la livraison",
+      highQuality: "Produit de haute qualité",
+    },
+
+    whatsapp: {
+      newOrder: "NOUVELLE COMMANDE",
+      product: "Produit",
+      quantity: "Quantité",
+      price: "Prix du produit",
+      delivery: "Livraison",
+      total: "Total",
+      customer: "Client",
+      name: "Nom",
+      city: "Ville",
+      address: "Adresse",
+      phone: "Téléphone",
     },
 
     footer: {
@@ -417,6 +520,56 @@ const translations = {
       continue: "مواصلة التسوق",
     },
 
+    checkout: {
+      title: "إتمام طلبك",
+      customerInformation: "معلومات الزبون",
+      fullName: "الاسم الكامل",
+      city: "المدينة",
+      searchCity: "ابحث عن مدينتك...",
+      address: "العنوان بالتفصيل",
+      addressPlaceholder: "أدخل عنوانك الكامل",
+      phone: "رقم الهاتف",
+      phonePlaceholder: "أدخل رقم هاتفك",
+      quantity: "الكمية",
+      delivery: "التوصيل",
+      freeDelivery: "مجاني",
+      deliveryFee: "40 درهم",
+      freeDeliveryIn: "التوصيل مجاني في فاس",
+      deliveryToOtherCities: "التوصيل إلى باقي المدن",
+      subtotal: "المجموع الفرعي",
+      total: "المجموع النهائي",
+      orderNow: "اطلب الآن",
+      completeOrder: "إتمام الطلب",
+      whatsapp: "الطلب عبر واتساب",
+      close: "إغلاق",
+      required: "هذا الحقل مطلوب",
+      invalidPhone: "يرجى إدخال رقم هاتف صحيح",
+      selectCity: "يرجى اختيار مدينتك",
+      orderSuccess:
+        "معلومات طلبك جاهزة للإرسال عبر واتساب.",
+      noProducts: "لا توجد منتجات في طلبك.",
+    },
+
+    productBenefits: {
+      fastDelivery: "توصيل سريع ومضمون",
+      cashOnDelivery: "الدفع عند الاستلام",
+      highQuality: "منتج عالي الجودة",
+    },
+
+    whatsapp: {
+      newOrder: "طلب جديد",
+      product: "المنتج",
+      quantity: "الكمية",
+      price: "ثمن المنتج",
+      delivery: "التوصيل",
+      total: "المجموع",
+      customer: "بيانات الزبون",
+      name: "الاسم",
+      city: "المدينة",
+      address: "العنوان",
+      phone: "رقم الهاتف",
+    },
+
     footer: {
       description: "الجمال والإكسسوارات",
       instagram: "إنستغرام",
@@ -425,6 +578,6 @@ const translations = {
         "© 2026 Uma Z&S Beauty. جميع الحقوق محفوظة.",
     },
   },
-}
+};
 
-export default translations
+export default translations;

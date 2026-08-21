@@ -1,6 +1,51 @@
 import { useState } from 'react'
 import translations from './translations'
 
+const WHATSAPP_NUMBER = '212XXXXXXXXX'
+
+const MOROCCAN_CITIES = [
+  'Agadir',
+  'Al Hoceima',
+  'Azrou',
+  'Beni Mellal',
+  'Berkane',
+  'Berrechid',
+  'Casablanca',
+  'Chefchaouen',
+  'Dakhla',
+  'El Jadida',
+  'Errachidia',
+  'Essaouira',
+  'Fes',
+  'Guelmim',
+  'Ifrane',
+  'Kenitra',
+  'Khemisset',
+  'Khouribga',
+  'Laayoune',
+  'Larache',
+  'Marrakech',
+  'Meknes',
+  'Mohammedia',
+  'Nador',
+  'Ouarzazate',
+  'Oujda',
+  'Rabat',
+  'Safi',
+  'Sale',
+  'Settat',
+  'Sefrou',
+  'Tangier',
+  'Tan-Tan',
+  'Taourirt',
+  'Taroudant',
+  'Taza',
+  'Tetouan',
+  'Tiznit',
+  'Youssoufia',
+  'Zagora',
+]
+
 const products = [
   {
     id: 1,
@@ -50,12 +95,24 @@ const interfaceText = {
     quantity: 'Quantity',
     customerReviews: 'Customer Reviews',
     noReviews: 'No reviews yet.',
-    writeReview: 'Reviews will appear here after customers purchase this product.',
+    writeReview:
+      'Be the first customer to write a review.',
+    reviewName: 'Your Name',
+    reviewNamePlaceholder: 'Enter your name',
+    reviewComment: 'Your Review',
+    reviewCommentPlaceholder: 'Write your review...',
+    reviewRating: 'Your Rating',
+    submitReview: 'Submit Review',
+    reviewRequired:
+      'Please enter your name and review.',
+    reviewSuccess:
+      'Your review has been added successfully.',
+    reviewsCount: 'reviews',
     continueShopping: 'Continue Shopping',
     buyNow: 'Buy Now',
     checkout: 'Complete Order',
     checkoutDescription:
-      'Your order will be prepared and the final confirmation will be completed through WhatsApp.',
+      'Enter your information below to complete your order through WhatsApp.',
     customerSpace: 'Customer Area',
     trackOrder: 'Track Your Order',
     fullName: 'Full Name',
@@ -83,6 +140,19 @@ const interfaceText = {
     decrease: 'Decrease quantity',
     increase: 'Increase quantity',
     subtotal: 'Subtotal',
+
+    city: 'City',
+    searchCity: 'Search for your city...',
+    address: 'Detailed Address',
+    delivery: 'Delivery',
+    free: 'Free',
+    finalTotal: 'Final Total',
+    cashOnDelivery: 'Cash on Delivery',
+    fastDelivery: 'Fast & Reliable Delivery',
+    highQuality: 'High Quality Product',
+    orderOnWhatsApp: 'Order via WhatsApp',
+    selectCity: 'Select your city',
+    requiredFields: 'Please fill in all required fields.',
   },
 
   fr: {
@@ -115,12 +185,23 @@ const interfaceText = {
     customerReviews: 'Avis clients',
     noReviews: 'Aucun avis pour le moment.',
     writeReview:
-      'Les avis apparaîtront ici après les achats des clients.',
+      'Soyez le premier client à laisser un avis.',
+    reviewName: 'Votre nom',
+    reviewNamePlaceholder: 'Entrez votre nom',
+    reviewComment: 'Votre avis',
+    reviewCommentPlaceholder: 'Écrivez votre avis...',
+    reviewRating: 'Votre note',
+    submitReview: 'Publier l’avis',
+    reviewRequired:
+      'Veuillez saisir votre nom et votre avis.',
+    reviewSuccess:
+      'Votre avis a été ajouté avec succès.',
+    reviewsCount: 'avis',
     continueShopping: 'Continuer mes achats',
     buyNow: 'Acheter maintenant',
     checkout: 'Finaliser la commande',
     checkoutDescription:
-      'Votre commande sera préparée et la confirmation finale sera effectuée via WhatsApp.',
+      'Entrez vos informations ci-dessous pour confirmer votre commande via WhatsApp.',
     customerSpace: 'Espace client',
     trackOrder: 'Suivre votre commande',
     fullName: 'Nom complet',
@@ -148,6 +229,20 @@ const interfaceText = {
     decrease: 'Diminuer la quantité',
     increase: 'Augmenter la quantité',
     subtotal: 'Sous-total',
+
+    city: 'Ville',
+    searchCity: 'Rechercher votre ville...',
+    address: 'Adresse détaillée',
+    delivery: 'Livraison',
+    free: 'Gratuite',
+    finalTotal: 'Total final',
+    cashOnDelivery: 'Paiement à la livraison',
+    fastDelivery: 'Livraison rapide et fiable',
+    highQuality: 'Produit de haute qualité',
+    orderOnWhatsApp: 'Commander via WhatsApp',
+    selectCity: 'Sélectionnez votre ville',
+    requiredFields:
+      'Veuillez remplir tous les champs obligatoires.',
   },
 
   ar: {
@@ -180,12 +275,23 @@ const interfaceText = {
     customerReviews: 'تعليقات الزبائن',
     noReviews: 'لا توجد تعليقات بعد.',
     writeReview:
-      'ستظهر تعليقات الزبائن هنا بعد شراء المنتج.',
+      'كن أول زبون يكتب تعليقًا.',
+    reviewName: 'اسمك',
+    reviewNamePlaceholder: 'أدخل اسمك',
+    reviewComment: 'تعليقك',
+    reviewCommentPlaceholder: 'اكتب تعليقك...',
+    reviewRating: 'تقييمك',
+    submitReview: 'إرسال التعليق',
+    reviewRequired:
+      'يرجى إدخال اسمك وتعليقك.',
+    reviewSuccess:
+      'تمت إضافة تعليقك بنجاح.',
+    reviewsCount: 'تعليقات',
     continueShopping: 'مواصلة التسوق',
     buyNow: 'اشترِ الآن',
     checkout: 'إتمام الطلب',
     checkoutDescription:
-      'سيتم تجهيز طلبك، ثم يتم تأكيد الطلب النهائي عبر واتساب.',
+      'أدخل معلوماتك أدناه لإتمام طلبك عبر واتساب.',
     customerSpace: 'فضاء الزبون',
     trackOrder: 'تتبع طلبك',
     fullName: 'الاسم الكامل',
@@ -213,6 +319,19 @@ const interfaceText = {
     decrease: 'تقليل الكمية',
     increase: 'زيادة الكمية',
     subtotal: 'المجموع الفرعي',
+
+    city: 'المدينة',
+    searchCity: 'ابحث عن مدينتك...',
+    address: 'العنوان بالتفصيل',
+    delivery: 'التوصيل',
+    free: 'مجاني',
+    finalTotal: 'المجموع النهائي',
+    cashOnDelivery: 'الدفع عند الاستلام',
+    fastDelivery: 'توصيل سريع ومضمون',
+    highQuality: 'منتج عالي الجودة',
+    orderOnWhatsApp: 'اطلب عبر واتساب',
+    selectCity: 'اختر مدينتك',
+    requiredFields: 'يرجى ملء جميع المعلومات المطلوبة.',
   },
 }
 
@@ -235,16 +354,30 @@ function App() {
 
   const [checkoutOpen, setCheckoutOpen] = useState(false)
 
+  const [checkoutName, setCheckoutName] = useState('')
+  const [checkoutCity, setCheckoutCity] = useState('')
+  const [checkoutAddress, setCheckoutAddress] = useState('')
+  const [checkoutPhone, setCheckoutPhone] = useState('')
+  const [citySearch, setCitySearch] = useState('')
+
+  const [checkoutError, setCheckoutError] = useState('')
+
+  // ================= REVIEWS =================
+
+  const [reviews, setReviews] = useState({})
+
+  const [reviewName, setReviewName] = useState('')
+  const [reviewComment, setReviewComment] = useState('')
+  const [reviewRating, setReviewRating] = useState(5)
+  const [reviewError, setReviewError] = useState('')
+  const [reviewSuccess, setReviewSuccess] = useState('')
+
   const t = translations[language]
   const ui = interfaceText[language]
 
-  /*
-    Demo order structure.
-
-    This is intentionally empty for customers.
-    Later, these orders should come from your database.
-  */
   const orders = []
+
+  // ================= CART =================
 
   const addToCart = (product, quantity = 1) => {
     setCartItems((currentItems) => {
@@ -350,11 +483,111 @@ function App() {
       return 0
     })
 
-  const cartTotal = cartItems.reduce(
+  const cartSubtotal = cartItems.reduce(
     (total, item) =>
       total + item.price * item.quantity,
     0
   )
+
+  // ================= DELIVERY =================
+
+  const deliveryFee =
+    checkoutCity === 'Fes'
+      ? 0
+      : checkoutCity
+        ? 40
+        : 0
+
+  const finalTotal =
+    cartSubtotal + deliveryFee
+
+  // ================= CHECKOUT =================
+
+  const openCheckout = () => {
+    setCheckoutError('')
+    setCheckoutOpen(true)
+  }
+
+  const closeCheckout = () => {
+    setCheckoutOpen(false)
+    setCheckoutError('')
+  }
+
+  const filteredCities = MOROCCAN_CITIES.filter(
+    (city) =>
+      city
+        .toLowerCase()
+        .includes(citySearch.toLowerCase().trim())
+  )
+
+  const sendOrderToWhatsApp = () => {
+    if (
+      !checkoutName.trim() ||
+      !checkoutCity ||
+      !checkoutAddress.trim() ||
+      !checkoutPhone.trim()
+    ) {
+      setCheckoutError(ui.requiredFields)
+      return
+    }
+
+    if (cartItems.length === 0) {
+      setCheckoutError(ui.cartEmpty)
+      return
+    }
+
+    const productLines = cartItems
+      .map((item) => {
+        const productTranslation =
+          t.products?.[item.translationKey]
+
+        const productName =
+          productTranslation?.name ||
+          item.brand ||
+          item.translationKey
+
+        const itemTotal =
+          item.price * item.quantity
+
+        return (
+          `• ${productName}\n` +
+          `  ${ui.quantity}: ${item.quantity}\n` +
+          `  ${ui.subtotal}: ${itemTotal.toFixed(2)} DH`
+        )
+      })
+      .join('\n')
+
+    const deliveryText =
+      deliveryFee === 0
+        ? ui.free
+        : `${deliveryFee} DH`
+
+    const message =
+      `🛍️ *طلب جديد - Uma Z&S Beauty*\n\n` +
+      `*${ui.orderDetails}:*\n` +
+      `${productLines}\n\n` +
+      `*${ui.subtotal}:* ${cartSubtotal.toFixed(2)} DH\n` +
+      `*${ui.delivery}:* ${deliveryText}\n` +
+      `*${ui.finalTotal}:* ${finalTotal.toFixed(2)} DH\n\n` +
+      `👤 *${ui.customerInfo}:*\n` +
+      `*${ui.fullName}:* ${checkoutName.trim()}\n` +
+      `*${ui.city}:* ${checkoutCity}\n` +
+      `*${ui.address}:* ${checkoutAddress.trim()}\n` +
+      `*${ui.phone}:* ${checkoutPhone.trim()}\n\n` +
+      `💵 ${ui.cashOnDelivery}`
+
+    const whatsappUrl =
+      `https://wa.me/${WHATSAPP_NUMBER}?text=` +
+      encodeURIComponent(message)
+
+    window.open(
+      whatsappUrl,
+      '_blank',
+      'noopener,noreferrer'
+    )
+  }
+
+  // ================= PRODUCT =================
 
   const scrollToShop = () => {
     document
@@ -365,11 +598,6 @@ function App() {
   }
 
   const openProduct = (product) => {
-    /*
-      Save the current scroll position so that closing
-      the product page returns the customer to exactly
-      where they were.
-    */
     sessionStorage.setItem(
       'productScrollPosition',
       window.scrollY.toString()
@@ -377,6 +605,12 @@ function App() {
 
     setSelectedProduct(product)
     setSelectedQuantity(1)
+
+    setReviewName('')
+    setReviewComment('')
+    setReviewRating(5)
+    setReviewError('')
+    setReviewSuccess('')
   }
 
   const closeProduct = () => {
@@ -395,6 +629,58 @@ function App() {
       }, 0)
     }
   }
+
+  const buyNow = () => {
+    if (!selectedProduct) return
+
+    addToCart(
+      selectedProduct,
+      selectedQuantity
+    )
+
+    setCheckoutError('')
+    setSelectedProduct(null)
+    setCheckoutOpen(true)
+  }
+
+  // ================= REVIEWS =================
+
+  const submitReview = () => {
+    if (
+      !reviewName.trim() ||
+      !reviewComment.trim()
+    ) {
+      setReviewError(ui.reviewRequired)
+      setReviewSuccess('')
+      return
+    }
+
+    const productId = selectedProduct.id
+
+    const newReview = {
+      id: Date.now(),
+      name: reviewName.trim(),
+      comment: reviewComment.trim(),
+      rating: reviewRating,
+      date: new Date().toLocaleDateString(),
+    }
+
+    setReviews((currentReviews) => ({
+      ...currentReviews,
+      [productId]: [
+        ...(currentReviews[productId] || []),
+        newReview,
+      ],
+    }))
+
+    setReviewName('')
+    setReviewComment('')
+    setReviewRating(5)
+    setReviewError('')
+    setReviewSuccess(ui.reviewSuccess)
+  }
+
+  // ================= CUSTOMER AREA =================
 
   const openCustomerSpace = () => {
     setCustomerSpaceOpen(true)
@@ -430,6 +716,11 @@ function App() {
     return 'processing'
   }
 
+  const selectedProductReviews =
+    selectedProduct
+      ? reviews[selectedProduct.id] || []
+      : []
+
   return (
     <div
       className="store"
@@ -449,6 +740,7 @@ function App() {
         </div>
 
         <nav className="nav">
+
           <a href="#home">
             {t.nav.home}
           </a>
@@ -468,6 +760,7 @@ function App() {
           <a href="#contact">
             {t.nav.contact}
           </a>
+
         </nav>
 
         <div className="header-actions">
@@ -802,6 +1095,7 @@ function App() {
                 <option value="ratingHigh">
                   {ui.ratingHigh}
                 </option>
+
               </select>
 
             </div>
@@ -1087,9 +1381,11 @@ function App() {
 
               <div className="about-feature">
                 <span>✨</span>
+
                 <h3>
                   {t.about.features.selected.title}
                 </h3>
+
                 <p>
                   {t.about.features.selected.description}
                 </p>
@@ -1097,9 +1393,11 @@ function App() {
 
               <div className="about-feature">
                 <span>💗</span>
+
                 <h3>
                   {t.about.features.elegance.title}
                 </h3>
+
                 <p>
                   {t.about.features.elegance.description}
                 </p>
@@ -1107,9 +1405,11 @@ function App() {
 
               <div className="about-feature">
                 <span>🛍️</span>
+
                 <h3>
                   {t.about.features.experience.title}
                 </h3>
+
                 <p>
                   {t.about.features.experience.description}
                 </p>
@@ -1167,6 +1467,7 @@ function App() {
             <div className="product-detail-layout">
 
               <div className="product-detail-image">
+
                 <img
                   src={
                     selectedProduct.image
@@ -1178,6 +1479,7 @@ function App() {
                     ]?.name
                   }
                 />
+
               </div>
 
               <div className="product-detail-content">
@@ -1225,12 +1527,49 @@ function App() {
                     selectedProduct.description}
                 </p>
 
+                {/* PRODUCT BENEFITS */}
+
+                <div className="product-benefits">
+
+                  <div className="product-benefit">
+                    <span className="product-benefit-icon">
+                      ⭐
+                    </span>
+
+                    <span>
+                      {ui.highQuality}
+                    </span>
+                  </div>
+
+                  <div className="product-benefit">
+                    <span className="product-benefit-icon">
+                      💵
+                    </span>
+
+                    <span>
+                      {ui.cashOnDelivery}
+                    </span>
+                  </div>
+
+                  <div className="product-benefit">
+                    <span className="product-benefit-icon">
+                      🚚
+                    </span>
+
+                    <span>
+                      {ui.fastDelivery}
+                    </span>
+                  </div>
+
+                </div>
+
                 <div className="detail-information">
 
                   <div>
                     <strong>
                       {ui.brand}
                     </strong>
+
                     <span>
                       {selectedProduct.brand}
                     </span>
@@ -1240,6 +1579,7 @@ function App() {
                     <strong>
                       {ui.volume}
                     </strong>
+
                     <span>
                       {selectedProduct.volume}
                     </span>
@@ -1306,13 +1646,7 @@ function App() {
 
                 <button
                   className="detail-buy-button"
-                  onClick={() => {
-                    addToCart(
-                      selectedProduct,
-                      selectedQuantity
-                    )
-                    setCheckoutOpen(true)
-                  }}
+                  onClick={buyNow}
                 >
                   {ui.buyNow}
                 </button>
@@ -1329,19 +1663,160 @@ function App() {
                 {ui.customerReviews}
               </h3>
 
-              <div className="reviews-empty">
+              {selectedProductReviews.length === 0 && (
+                <div className="reviews-empty">
 
-                <div>
-                  💬
+                  <div>
+                    💬
+                  </div>
+
+                  <strong>
+                    {ui.noReviews}
+                  </strong>
+
+                  <p>
+                    {ui.writeReview}
+                  </p>
+
+                </div>
+              )}
+
+              {selectedProductReviews.length > 0 && (
+                <div className="reviews-list">
+
+                  {selectedProductReviews.map(
+                    (review) => (
+                      <div
+                        className="review-item"
+                        key={review.id}
+                      >
+
+                        <div className="review-header">
+
+                          <strong>
+                            {review.name}
+                          </strong>
+
+                          <span className="review-date">
+                            {review.date}
+                          </span>
+
+                        </div>
+
+                        <div className="review-stars">
+                          {'★'.repeat(review.rating)}
+                          {'☆'.repeat(5 - review.rating)}
+                        </div>
+
+                        <p>
+                          {review.comment}
+                        </p>
+
+                      </div>
+                    )
+                  )}
+
+                </div>
+              )}
+
+              {/* WRITE REVIEW */}
+
+              <div className="review-form">
+
+                <h4>
+                  {ui.writeReview}
+                </h4>
+
+                <label>
+                  {ui.reviewName}
+
+                  <input
+                    type="text"
+                    value={reviewName}
+                    onChange={(e) => {
+                      setReviewName(
+                        e.target.value
+                      )
+                      setReviewError('')
+                      setReviewSuccess('')
+                    }}
+                    placeholder={
+                      ui.reviewNamePlaceholder
+                    }
+                  />
+                </label>
+
+                <div className="review-rating-input">
+
+                  <span>
+                    {ui.reviewRating}
+                  </span>
+
+                  <div className="review-star-buttons">
+
+                    {[1, 2, 3, 4, 5].map(
+                      (star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          className={
+                            star <= reviewRating
+                              ? 'active'
+                              : ''
+                          }
+                          onClick={() => {
+                            setReviewRating(star)
+                            setReviewError('')
+                            setReviewSuccess('')
+                          }}
+                          aria-label={`${star} stars`}
+                        >
+                          ★
+                        </button>
+                      )
+                    )}
+
+                  </div>
+
                 </div>
 
-                <strong>
-                  {ui.noReviews}
-                </strong>
+                <label>
+                  {ui.reviewComment}
 
-                <p>
-                  {ui.writeReview}
-                </p>
+                  <textarea
+                    value={reviewComment}
+                    onChange={(e) => {
+                      setReviewComment(
+                        e.target.value
+                      )
+                      setReviewError('')
+                      setReviewSuccess('')
+                    }}
+                    placeholder={
+                      ui.reviewCommentPlaceholder
+                    }
+                    rows="4"
+                  />
+                </label>
+
+                {reviewError && (
+                  <div className="review-error">
+                    {reviewError}
+                  </div>
+                )}
+
+                {reviewSuccess && (
+                  <div className="review-success">
+                    {reviewSuccess}
+                  </div>
+                )}
+
+                <button
+                  className="review-submit-button"
+                  onClick={submitReview}
+                >
+                  {ui.submitReview}
+                </button>
 
               </div>
 
@@ -1366,6 +1841,7 @@ function App() {
 
           <div
             className="cart-panel"
+            dir="ltr"
             onClick={(e) =>
               e.stopPropagation()
             }
@@ -1514,16 +1990,14 @@ function App() {
                   </span>
 
                   <strong>
-                    {cartTotal.toFixed(2)} DH
+                    {cartSubtotal.toFixed(2)} DH
                   </strong>
 
                 </div>
 
                 <button
                   className="checkout-button"
-                  onClick={() =>
-                    setCheckoutOpen(true)
-                  }
+                  onClick={openCheckout}
                 >
                   {ui.checkout}
                 </button>
@@ -1542,9 +2016,7 @@ function App() {
 
         <div
           className="checkout-overlay"
-          onClick={() =>
-            setCheckoutOpen(false)
-          }
+          onClick={closeCheckout}
         >
 
           <div
@@ -1556,9 +2028,7 @@ function App() {
 
             <button
               className="modal-close"
-              onClick={() =>
-                setCheckoutOpen(false)
-              }
+              onClick={closeCheckout}
             >
               ×
             </button>
@@ -1579,32 +2049,161 @@ function App() {
               {ui.checkoutDescription}
             </p>
 
+            <div className="checkout-form">
+
+              <label>
+                {ui.fullName}
+
+                <input
+                  type="text"
+                  value={checkoutName}
+                  onChange={(e) => {
+                    setCheckoutName(
+                      e.target.value
+                    )
+                    setCheckoutError('')
+                  }}
+                  placeholder={ui.fullName}
+                  required
+                />
+              </label>
+
+              <label>
+                {ui.city}
+
+                <input
+                  type="text"
+                  value={citySearch}
+                  onChange={(e) => {
+                    setCitySearch(
+                      e.target.value
+                    )
+                    setCheckoutCity('')
+                    setCheckoutError('')
+                  }}
+                  placeholder={ui.searchCity}
+                />
+
+                <select
+                  value={checkoutCity}
+                  onChange={(e) => {
+                    setCheckoutCity(
+                      e.target.value
+                    )
+                    setCitySearch(
+                      e.target.value
+                    )
+                    setCheckoutError('')
+                  }}
+                  required
+                >
+
+                  <option value="">
+                    {ui.selectCity}
+                  </option>
+
+                  {filteredCities.map(
+                    (city) => (
+                      <option
+                        key={city}
+                        value={city}
+                      >
+                        {city}
+                      </option>
+                    )
+                  )}
+
+                </select>
+
+              </label>
+
+              <label>
+                {ui.address}
+
+                <textarea
+                  value={checkoutAddress}
+                  onChange={(e) => {
+                    setCheckoutAddress(
+                      e.target.value
+                    )
+                    setCheckoutError('')
+                  }}
+                  placeholder={ui.address}
+                  rows="3"
+                  required
+                />
+              </label>
+
+              <label>
+                {ui.phone}
+
+                <input
+                  type="tel"
+                  value={checkoutPhone}
+                  onChange={(e) => {
+                    setCheckoutPhone(
+                      e.target.value
+                    )
+                    setCheckoutError('')
+                  }}
+                  placeholder="06XXXXXXXX"
+                  required
+                />
+              </label>
+
+            </div>
+
+            {checkoutError && (
+              <div className="checkout-error">
+                {checkoutError}
+              </div>
+            )}
+
             <div className="checkout-summary">
 
-              <span>
-                {ui.total}
-              </span>
+              <div>
+                <span>
+                  {ui.subtotal}
+                </span>
 
-              <strong>
-                {cartTotal.toFixed(2)} DH
-              </strong>
+                <strong>
+                  {cartSubtotal.toFixed(2)} DH
+                </strong>
+              </div>
+
+              <div>
+                <span>
+                  {ui.delivery}
+                </span>
+
+                <strong>
+                  {deliveryFee === 0
+                    ? ui.free
+                    : `${deliveryFee} DH`}
+                </strong>
+              </div>
+
+              <div className="checkout-final-total">
+
+                <span>
+                  {ui.finalTotal}
+                </span>
+
+                <strong>
+                  {finalTotal.toFixed(2)} DH
+                </strong>
+
+              </div>
 
             </div>
 
             <button
               className="whatsapp-checkout-button"
-              onClick={() => {
-                /*
-                  WhatsApp number will be added later.
-                  This button is only the visual checkout
-                  interface for now.
-                */
-                alert(
-                  'WhatsApp checkout will be connected later.'
-                )
-              }}
+              onClick={
+                sendOrderToWhatsApp
+              }
             >
-              💬 WhatsApp
+              💬 {ui.orderOnWhatsApp}
             </button>
 
           </div>
@@ -1782,6 +2381,7 @@ function App() {
                     }
                   >
                     <span>1</span>
+
                     <p>
                       {ui.statusProcessing}
                     </p>
@@ -1796,6 +2396,7 @@ function App() {
                     }
                   >
                     <span>2</span>
+
                     <p>
                       {ui.statusPrepared}
                     </p>
@@ -1810,6 +2411,7 @@ function App() {
                     }
                   >
                     <span>3</span>
+
                     <p>
                       {ui.statusInTransit}
                     </p>
@@ -1824,6 +2426,7 @@ function App() {
                     }
                   >
                     <span>4</span>
+
                     <p>
                       {ui.statusDelivered}
                     </p>
