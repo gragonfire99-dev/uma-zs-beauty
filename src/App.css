@@ -162,6 +162,47 @@ button {
   background: rgba(0,0,0,0.06);
 }
 
+/* ================= SITE NOTICE ================= */
+
+.site-notice {
+  width: 100%;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #f8e6ee, #fff8fb, #f8e6ee);
+  border-bottom: 1px solid rgba(180, 110, 140, 0.16);
+  text-align: center;
+}
+
+.site-notice p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 0;
+  color: #5a3d48;
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  line-height: 1.6;
+}
+
+.site-notice-separator {
+  margin: 0 12px;
+  color: #c56f94;
+}
+
+@media (max-width: 480px) {
+  .site-notice {
+    padding: 9px 14px;
+  }
+
+  .site-notice p {
+    font-size: 12px;
+  }
+
+  .site-notice-separator {
+    margin: 0 8px;
+  }
+}
+
 /* ================= HERO ================= */
 
 .hero {
@@ -446,13 +487,17 @@ button {
 
 /* ================= FILTERS ================= */
 
+.shop-filters-wrap {
+  margin-bottom: 45px;
+}
+
 .shop-filters {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 45px;
+  margin-bottom: 0;
   direction: ltr;
 }
 
@@ -476,6 +521,37 @@ button {
   background: #33262c;
   color: white;
   border-color: #33262c;
+}
+
+.shop-subfilters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  direction: ltr;
+}
+
+.shop-subfilters button {
+  border: 1px solid #ead4dc;
+  background: #fffafc;
+  color: #5f4c55;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 13px;
+  transition: .3s;
+}
+
+.shop-subfilters button:hover {
+  background: #f9e8ef;
+  border-color: #d69ab1;
+}
+
+.shop-subfilters button.active {
+  background: #d69ab1;
+  color: white;
+  border-color: #d69ab1;
 }
 
 /* ================= PRODUCTS ================= */
@@ -1662,7 +1738,8 @@ button {
     gap: 7px;
   }
 
-  .shop-filters button {
+  .shop-filters button,
+  .shop-subfilters button {
     padding: 9px 13px;
     font-size: 12px;
   }

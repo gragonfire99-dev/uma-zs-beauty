@@ -15,6 +15,11 @@ const translations = {
   close: 'Close',
 },
 
+    announcement: {
+      noReturns: "Products cannot be returned",
+      cashOnDelivery: "Cash on delivery",
+    },
+
     hero: {
       welcome: "WELCOME TO",
       title: "Uma Z&S",
@@ -58,7 +63,7 @@ const translations = {
     products: {
       facialCleanser: {
         name: "Gel Limpiador Facial Clean",
-        category: "Face Care",
+        category: "Face",
         description:
           "Daily facial cleansing gel that gently cleans the skin and removes impurities and excess oil without drying it. Suitable for normal and combination skin.",
         brand: "Deliplus",
@@ -81,6 +86,30 @@ const translations = {
         perfumes: "Perfumes",
         accessories: "Accessories",
         beauty: "Beauty",
+      },
+
+      categoryNames: {
+        Beauty: "Beauty",
+        Makeup: "Makeup",
+        Accessories: "Accessories",
+        Perfumes: "Perfumes",
+      },
+
+      subcategoryNames: {
+        Face: "Face",
+        Hair: "Hair",
+        Hands: "Hands",
+        Body: "Body",
+        Nails: "Nails",
+        Other: "Other",
+        Eyes: "Eyes",
+        Lips: "Lips",
+        Cheeks: "Cheeks",
+        Ears: "Ears",
+        Neck: "Neck",
+        Women: "Women",
+        Men: "Men",
+        Unisex: "Unisex",
       },
 
       emptyTitle: "Our collection is coming soon",
@@ -149,8 +178,8 @@ const translations = {
       quantity: "Quantity",
       delivery: "Delivery",
       freeDelivery: "Free",
-      deliveryFee: "40 MAD",
-      freeDeliveryIn: "Free delivery in Fes",
+      deliveryFee: "35 DH",
+      freeDeliveryIn: "Delivery 35 DH in all cities",
       deliveryToOtherCities: "Delivery to other cities",
       subtotal: "Subtotal",
       total: "Total",
@@ -212,6 +241,11 @@ const translations = {
   close: 'Fermer',
 },
 
+    announcement: {
+      noReturns: "Les produits ne sont pas retournables",
+      cashOnDelivery: "Paiement à la livraison",
+    },
+
     hero: {
       welcome: "BIENVENUE CHEZ",
       title: "Uma Z&S",
@@ -259,7 +293,7 @@ const translations = {
     products: {
       facialCleanser: {
         name: "Gel Nettoyant Visage Clean",
-        category: "Soin du visage",
+        category: "Visage",
         description:
           "Gel nettoyant quotidien pour le visage qui nettoie délicatement la peau et élimine les impuretés et l'excès de sébum sans la dessécher. Convient aux peaux normales et mixtes.",
         brand: "Deliplus",
@@ -282,6 +316,30 @@ const translations = {
         perfumes: "Parfums",
         accessories: "Accessoires",
         beauty: "Beauté",
+      },
+
+      categoryNames: {
+        Beauty: "Beauté",
+        Makeup: "Maquillage",
+        Accessories: "Accessoires",
+        Perfumes: "Parfums",
+      },
+
+      subcategoryNames: {
+        Face: "Visage",
+        Hair: "Cheveux",
+        Hands: "Mains",
+        Body: "Corps",
+        Nails: "Ongles",
+        Other: "Autre",
+        Eyes: "Yeux",
+        Lips: "Lèvres",
+        Cheeks: "Joues",
+        Ears: "Oreilles",
+        Neck: "Cou",
+        Women: "Femmes",
+        Men: "Hommes",
+        Unisex: "Mixte",
       },
 
       emptyTitle:
@@ -351,8 +409,8 @@ const translations = {
       quantity: "Quantité",
       delivery: "Livraison",
       freeDelivery: "Gratuite",
-      deliveryFee: "40 MAD",
-      freeDeliveryIn: "Livraison gratuite à Fès",
+      deliveryFee: "35 DH",
+      freeDeliveryIn: "Livraison 35 DH dans toutes les villes",
       deliveryToOtherCities: "Livraison vers les autres villes",
       subtotal: "Sous-total",
       total: "Total",
@@ -415,6 +473,11 @@ pwa: {
   close: 'إغلاق',
 },
 
+    announcement: {
+      noReturns: "المنتجات غير قابلة للإرجاع",
+      cashOnDelivery: "الدفع عند الاستلام",
+    },
+
     hero: {
       welcome: "مرحبًا بكم في",
       title: "Uma Z&S",
@@ -462,7 +525,7 @@ pwa: {
     products: {
       facialCleanser: {
         name: "جل منظف للوجه Clean",
-        category: "العناية بالوجه",
+        category: "الوجه",
         description:
           "جل منظف يومي للوجه ينظف البشرة بلطف ويزيل الشوائب والإفرازات الدهنية دون أن يسبب جفافها. مناسب للبشرة العادية والمختلطة.",
         brand: "Deliplus",
@@ -485,6 +548,30 @@ pwa: {
         perfumes: "العطور",
         accessories: "الإكسسوارات",
         beauty: "العناية والجمال",
+      },
+
+      categoryNames: {
+        Beauty: "العناية والجمال",
+        Makeup: "المكياج",
+        Accessories: "الإكسسوارات",
+        Perfumes: "العطور",
+      },
+
+      subcategoryNames: {
+        Face: "الوجه",
+        Hair: "الشعر",
+        Hands: "اليدين",
+        Body: "الجسم",
+        Nails: "الأظافر",
+        Other: "أخرى",
+        Eyes: "العيون",
+        Lips: "الشفاه",
+        Cheeks: "الخدود",
+        Ears: "الأذنين",
+        Neck: "العنق",
+        Women: "نسائي",
+        Men: "رجالي",
+        Unisex: "للجنسين",
       },
 
       emptyTitle:
@@ -554,8 +641,8 @@ pwa: {
       quantity: "الكمية",
       delivery: "التوصيل",
       freeDelivery: "مجاني",
-      deliveryFee: "40 درهم",
-      freeDeliveryIn: "التوصيل مجاني في فاس",
+      deliveryFee: "35 درهم",
+      freeDeliveryIn: "التوصيل 35 درهم لجميع المدن",
       deliveryToOtherCities: "التوصيل إلى باقي المدن",
       subtotal: "المجموع الفرعي",
       total: "المجموع النهائي",

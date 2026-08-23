@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
 import translations from './translations'
+import { CATEGORIES, getCategoryById } from './categories'
 
 const WHATSAPP_NUMBER = '212XXXXXXXXX'
+const INSTAGRAM_HANDLE = 'uma_concept.store'
+const INSTAGRAM_URL = 'https://www.instagram.com/uma_concept.store/'
 
 const MOROCCAN_CITIES = [
   'Agadir',
@@ -51,7 +54,7 @@ const products = [
     id: 1,
     translationKey: 'facialCleanser',
     category: 'Beauty',
-    subcategory: 'Face Care',
+    subcategory: 'Face',
     type: 'Facial Cleanser',
     price: 40,
     oldPrice: 50,
@@ -151,6 +154,7 @@ const interfaceText = {
     orderOnWhatsApp: 'Order via WhatsApp',
     selectCity: 'Select your city',
     requiredFields: 'Please fill in all required fields.',
+    deliveryPending: '—',
   },
 
   fr: {
@@ -239,6 +243,7 @@ const interfaceText = {
     selectCity: 'Sélectionnez votre ville',
     requiredFields:
       'Veuillez remplir tous les champs obligatoires.',
+    deliveryPending: '—',
   },
 
   ar: {
@@ -326,6 +331,7 @@ const interfaceText = {
     orderOnWhatsApp: 'اطلب عبر واتساب',
     selectCity: 'اختر مدينتك',
     requiredFields: 'يرجى ملء جميع المعلومات المطلوبة.',
+    deliveryPending: '—',
   },
 }
 
@@ -476,6 +482,7 @@ function App() {
   // ================= NORMAL APP STATE =================
 
   const [category, setCategory] = useState('All')
+  const [subcategory, setSubcategory] = useState('All')
   const [cartOpen, setCartOpen] = useState(false)
   const [language, setLanguage] = useState('en')
   const [search, setSearch] = useState('')
@@ -515,6 +522,20 @@ function App() {
 
   const t = translations[language]
   const ui = interfaceText[language]
+
+  const getCategoryName = (categoryId) =>
+    t.shop.categoryNames?.[categoryId] || categoryId
+
+  const getSubcategoryName = (subcategoryId) =>
+    t.shop.subcategoryNames?.[subcategoryId] ||
+    subcategoryId
+
+  const selectMainCategory = (nextCategory) => {
+    setCategory(nextCategory)
+    setSubcategory('All')
+  }
+
+  const selectedCategoryData = getCategoryById(category)
 
   // ================= ORDERS =================
 
@@ -707,6 +728,11 @@ function App() {
         category === 'All' ||
         product.category === category
 
+      const matchesSubcategory =
+        category === 'All' ||
+        subcategory === 'All' ||
+        product.subcategory === subcategory
+
       const productTranslation =
         t.products?.[product.translationKey]
 
@@ -714,7 +740,7 @@ function App() {
         search.toLowerCase().trim()
 
       if (!searchText) {
-        return matchesCategory
+        return matchesCategory && matchesSubcategory
       }
 
       const searchableText = [
@@ -730,6 +756,7 @@ function App() {
 
       return (
         matchesCategory &&
+        matchesSubcategory &&
         searchableText.includes(searchText)
       )
     })
@@ -758,12 +785,9 @@ function App() {
 
   // ================= DELIVERY =================
 
-  const deliveryFee =
-    checkoutCity === 'Fes'
-      ? 0
-      : checkoutCity
-        ? 40
-        : 0
+  const DELIVERY_FEE = 35
+
+  const deliveryFee = checkoutCity ? DELIVERY_FEE : 0
 
   const finalTotal =
     cartSubtotal + deliveryFee
@@ -836,10 +860,9 @@ function App() {
         })
         .join('\n')
 
-    const deliveryText =
-      deliveryFee === 0
-        ? ui.free
-        : `${deliveryFee} DH`
+    const deliveryText = checkoutCity
+      ? `${deliveryFee} DH`
+      : ui.deliveryPending
 
     const message =
       `🛍️ *طلب جديد - Uma Z&S Beauty*\n\n` +
@@ -1317,6 +1340,20 @@ function App() {
 
         </header>
 
+        <div className="site-notice">
+          <p>
+            <span>
+              {t.announcement.noReturns}
+            </span>
+            <span className="site-notice-separator">
+              •
+            </span>
+            <span>
+              {t.announcement.cashOnDelivery}
+            </span>
+          </p>
+        </div>
+
         {/* ================= MAIN ================= */}
 
         <main>
@@ -1393,119 +1430,44 @@ function App() {
 
             <div className="collection-grid">
 
-              <div className="collection-card">
+              {CATEGORIES.map((collection) => {
+                const collectionText =
+                  t.collections[collection.id.toLowerCase()]
 
-                <div className="collection-image">
-                  <img
-                    src="/makeup.jpg"
-                    alt="Makeup"
-                  />
-                </div>
+                return (
+                  <div
+                    className="collection-card"
+                    key={collection.id}
+                  >
 
-                <h3>
-                  {t.collections.makeup.title}
-                </h3>
+                    <div className="collection-image">
+                      <img
+                        src={collection.image}
+                        alt={getCategoryName(collection.id)}
+                      />
+                    </div>
 
-                <p>
-                  {t.collections.makeup.description}
-                </p>
+                    <h3>
+                      {collectionText?.title ||
+                        getCategoryName(collection.id)}
+                    </h3>
 
-                <button
-                  onClick={() => {
-                    setCategory('Makeup')
-                    scrollToShop()
-                  }}
-                >
-                  {t.collections.makeup.button}
-                </button>
+                    <p>
+                      {collectionText?.description}
+                    </p>
 
-              </div>
+                    <button
+                      onClick={() => {
+                        selectMainCategory(collection.id)
+                        scrollToShop()
+                      }}
+                    >
+                      {collectionText?.button}
+                    </button>
 
-              <div className="collection-card">
-
-                <div className="collection-image">
-                  <img
-                    src="/accessories.jpg"
-                    alt="Accessories"
-                  />
-                </div>
-
-                <h3>
-                  {t.collections.accessories.title}
-                </h3>
-
-                <p>
-                  {t.collections.accessories.description}
-                </p>
-
-                <button
-                  onClick={() => {
-                    setCategory(
-                      'Accessories'
-                    )
-                    scrollToShop()
-                  }}
-                >
-                  {t.collections.accessories.button}
-                </button>
-
-              </div>
-
-              <div className="collection-card">
-
-                <div className="collection-image">
-                  <img
-                    src="/perfumes.jpg"
-                    alt="Perfumes"
-                  />
-                </div>
-
-                <h3>
-                  {t.collections.perfumes.title}
-                </h3>
-
-                <p>
-                  {t.collections.perfumes.description}
-                </p>
-
-                <button
-                  onClick={() => {
-                    setCategory('Perfumes')
-                    scrollToShop()
-                  }}
-                >
-                  {t.collections.perfumes.button}
-                </button>
-
-              </div>
-
-              <div className="collection-card">
-
-                <div className="collection-image">
-                  <img
-                    src="/beauty.jpg"
-                    alt="Beauty"
-                  />
-                </div>
-
-                <h3>
-                  {t.collections.beauty.title}
-                </h3>
-
-                <p>
-                  {t.collections.beauty.description}
-                </p>
-
-                <button
-                  onClick={() => {
-                    setCategory('Beauty')
-                    scrollToShop()
-                  }}
-                >
-                  {t.collections.beauty.button}
-                </button>
-
-              </div>
+                  </div>
+                )
+              })}
 
             </div>
 
@@ -1602,74 +1564,77 @@ function App() {
 
             </div>
 
-            <div className="shop-filters">
+            <div className="shop-filters-wrap">
 
-              <button
-                className={
-                  category === 'All'
-                    ? 'active'
-                    : ''
-                }
-                onClick={() =>
-                  setCategory('All')
-                }
-              >
-                {t.shop.filters.all}
-              </button>
+              <div className="shop-filters">
 
-              <button
-                className={
-                  category === 'Makeup'
-                    ? 'active'
-                    : ''
-                }
-                onClick={() =>
-                  setCategory('Makeup')
-                }
-              >
-                {t.shop.filters.makeup}
-              </button>
+                <button
+                  className={
+                    category === 'All'
+                      ? 'active'
+                      : ''
+                  }
+                  onClick={() =>
+                    selectMainCategory('All')
+                  }
+                >
+                  {t.shop.filters.all}
+                </button>
 
-              <button
-                className={
-                  category === 'Perfumes'
-                    ? 'active'
-                    : ''
-                }
-                onClick={() =>
-                  setCategory('Perfumes')
-                }
-              >
-                {t.shop.filters.perfumes}
-              </button>
+                {CATEGORIES.map((item) => (
+                  <button
+                    key={item.id}
+                    className={
+                      category === item.id
+                        ? 'active'
+                        : ''
+                    }
+                    onClick={() =>
+                      selectMainCategory(item.id)
+                    }
+                  >
+                    {getCategoryName(item.id)}
+                  </button>
+                ))}
 
-              <button
-                className={
-                  category === 'Accessories'
-                    ? 'active'
-                    : ''
-                }
-                onClick={() =>
-                  setCategory(
-                    'Accessories'
-                  )
-                }
-              >
-                {t.shop.filters.accessories}
-              </button>
+              </div>
 
-              <button
-                className={
-                  category === 'Beauty'
-                    ? 'active'
-                    : ''
-                }
-                onClick={() =>
-                  setCategory('Beauty')
-                }
-              >
-                {t.shop.filters.beauty}
-              </button>
+              {selectedCategoryData && (
+                <div className="shop-subfilters">
+
+                  <button
+                    className={
+                      subcategory === 'All'
+                        ? 'active'
+                        : ''
+                    }
+                    onClick={() =>
+                      setSubcategory('All')
+                    }
+                  >
+                    {t.shop.filters.all}
+                  </button>
+
+                  {selectedCategoryData.subcategories.map(
+                    (item) => (
+                      <button
+                        key={item}
+                        className={
+                          subcategory === item
+                            ? 'active'
+                            : ''
+                        }
+                        onClick={() =>
+                          setSubcategory(item)
+                        }
+                      >
+                        {getSubcategoryName(item)}
+                      </button>
+                    )
+                  )}
+
+                </div>
+              )}
 
             </div>
 
@@ -2805,10 +2770,9 @@ function App() {
                   </span>
 
                   <strong>
-                    {deliveryFee ===
-                    0
-                      ? ui.free
-                      : `${deliveryFee} DH`}
+                    {checkoutCity
+                      ? `${deliveryFee} DH`
+                      : ui.deliveryPending}
                   </strong>
                 </div>
 
@@ -3233,8 +3197,13 @@ function App() {
 
           <div className="footer-links">
 
-            <a href="#">
-              {t.footer.instagram}
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={INSTAGRAM_HANDLE}
+            >
+              @{INSTAGRAM_HANDLE}
             </a>
 
             <a href="#">
