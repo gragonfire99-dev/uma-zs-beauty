@@ -1816,6 +1816,53 @@ button {
   }
 }
 
+@media (max-width:390px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .header {
+    gap: 8px;
+  }
+
+  .hero {
+    padding: 65px 16px;
+  }
+
+  .hero h2 {
+    font-size: 44px;
+  }
+
+  .collections,
+  .shop,
+  .about {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .shop-tools {
+    gap: 12px;
+  }
+
+  .sort-box {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sort-box select {
+    width: 100%;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .product-image {
+    height: 220px;
+  }
+}
+
 /* =========================================================
 CHECKOUT / CUSTOMER FORM — NEW DESIGN
 ========================================================= */

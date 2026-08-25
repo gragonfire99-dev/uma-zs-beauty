@@ -516,7 +516,7 @@
   }
 
   .admin-table {
-    min-width: 800px;
+    min-width: 0;
   }
 
   .admin-header {
@@ -530,6 +530,152 @@
 
   .admin-modal-overlay {
     padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-container {
+    overflow-x: hidden;
+  }
+
+  .admin-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .admin-header-left,
+  .admin-user-info {
+    width: 100%;
+  }
+
+  .admin-user-info {
+    flex-wrap: wrap;
+  }
+
+  .admin-user-info > span {
+    flex-basis: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-user-info .admin-btn {
+    flex: 1 1 140px;
+  }
+
+  .admin-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .admin-stat-card {
+    padding: 14px;
+  }
+
+  .admin-stat-value {
+    font-size: 22px;
+  }
+
+  .admin-table-container {
+    overflow: hidden;
+  }
+
+  .admin-table-wrap {
+    overflow: visible;
+  }
+
+  .admin-table,
+  .admin-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .admin-table tbody td {
+    display: flex;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    align-items: center;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-table tbody td::before {
+    content: '';
+    flex: 0 0 auto;
+    margin-right: 6px;
+    color: #777;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .admin-table tbody td:nth-child(1) {
+    grid-column: 1 / -1;
+  }
+
+  .admin-table tbody td:nth-child(1)::before {
+    content: 'الصورة';
+  }
+
+  .admin-table tbody td:nth-child(2) {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-table tbody td:nth-child(2)::before {
+    margin-bottom: 4px;
+    margin-right: 0;
+    content: 'المنتج';
+  }
+
+  .admin-table tbody td:nth-child(3)::before {
+    content: 'الفئة';
+  }
+
+  .admin-table tbody td:nth-child(4)::before {
+    content: 'السعر';
+  }
+
+  .admin-table tbody td:nth-child(5)::before {
+    content: 'المخزون';
+  }
+
+  .admin-table tbody td:nth-child(6)::before {
+    content: 'الحالة';
+  }
+
+  .admin-table tbody td:nth-child(7) {
+    grid-column: 1 / -1;
+  }
+
+  .admin-table tbody td:nth-child(7)::before {
+    content: 'إجراءات';
+  }
+
+  .admin-actions {
+    flex: 1;
+    flex-wrap: wrap;
+  }
+
+  .admin-stock-controls {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .admin-stock-controls input {
+    min-width: 0;
+    width: 54px;
   }
 }
 
