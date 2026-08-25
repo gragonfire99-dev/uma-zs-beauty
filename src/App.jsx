@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
 import translations from './translations'
 import { CATEGORIES, getCategoryById } from './categories'
+import {
+  FALLBACK_PRODUCTS,
+  fetchStoreProducts,
+  subscribeToProducts,
+} from './lib/catalog'
+import Admin from './admin/Admin'
 
 const WHATSAPP_NUMBER = '212XXXXXXXXX'
 const INSTAGRAM_HANDLE = 'uma_concept.store'
@@ -47,25 +53,6 @@ const MOROCCAN_CITIES = [
   'Tiznit',
   'Youssoufia',
   'Zagora',
-]
-
-const products = [
-  {
-    id: 1,
-    translationKey: 'facialCleanser',
-    category: 'Beauty',
-    subcategory: 'Face',
-    type: 'Facial Cleanser',
-    price: 40,
-    oldPrice: 50,
-    stock: true,
-    rating: 4.2,
-    volume: '250 ml',
-    brand: 'Deliplus',
-    description:
-      'Gel limpiador facial diario que limpia suavemente la piel y elimina las impurezas y el exceso de grasa sin resecarla. Adecuado para piel normal y mixta.',
-    image: '/facial-cleanser.jpg',
-  },
 ]
 
 const interfaceText = {
@@ -352,7 +339,7 @@ const createProductSlug = (product, language = 'en') => {
     .replace(/^-+|-+$/g, '')
 }
 
-function App() {
+function Store() {
   // ================= PWA INSTALL =================
 
   const [installPrompt, setInstallPrompt] = useState(null)
@@ -390,7 +377,6 @@ function App() {
 
   useEffect(() => {
     if (isAppInstalled()) {
-      setShowInstallBanner(false)
       return
     }
 
@@ -404,11 +390,11 @@ function App() {
       String(newVisitCount)
     )
 
-    if (newVisitCount % 4 === 0) {
-      setShowInstallBanner(true)
-    } else {
-      setShowInstallBanner(false)
-    }
+    const timer = window.setTimeout(() => {
+      setShowInstallBanner(newVisitCount % 4 === 0)
+    }, 0)
+
+    return () => window.clearTimeout(timer)
   }, [])
 
   // عندما يصل installPrompt بعد تحميل الموقع
@@ -420,9 +406,11 @@ function App() {
     const currentVisits =
       Number(localStorage.getItem('pwaVisitCount')) || 0
 
-    if (currentVisits % 4 === 0) {
-      setShowInstallBanner(true)
-    }
+    const timer = window.setTimeout(() => {
+      setShowInstallBanner(currentVisits % 4 === 0)
+    }, 0)
+
+    return () => window.clearTimeout(timer)
   }, [installPrompt])
 
   // ================= INSTALL =================
@@ -481,6 +469,7 @@ function App() {
 
   // ================= NORMAL APP STATE =================
 
+  const [products, setProducts] = useState(FALLBACK_PRODUCTS)
   const [category, setCategory] = useState('All')
   const [subcategory, setSubcategory] = useState('All')
   const [cartOpen, setCartOpen] = useState(false)
@@ -536,6 +525,49 @@ function App() {
   }
 
   const selectedCategoryData = getCategoryById(category)
+
+  useEffect(() => {
+    let isActive = true
+
+    const loadProducts = async () => {
+      try {
+        const nextProducts = await fetchStoreProducts()
+        const productsToUse =
+          nextProducts.length > 0 ? nextProducts : FALLBACK_PRODUCTS
+
+        if (isActive) {
+          setProducts(productsToUse)
+
+          if (window.location.pathname.startsWith('/products/')) {
+            const slug = window.location.pathname
+              .replace('/products/', '')
+              .replace(/\/$/, '')
+            const product = productsToUse.find(
+              (item) => createProductSlug(item, language) === slug
+            )
+
+            if (product) {
+              setSelectedProduct(product)
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Store products loading error:', error)
+
+        if (isActive) {
+          setProducts(FALLBACK_PRODUCTS)
+        }
+      }
+    }
+
+    loadProducts()
+    const unsubscribe = subscribeToProducts(loadProducts)
+
+    return () => {
+      isActive = false
+      unsubscribe()
+    }
+  }, [language])
 
   // ================= ORDERS =================
 
@@ -925,36 +957,6 @@ function App() {
     setReviewError('')
     setReviewSuccess('')
   }
-
-  // ================= OPEN PRODUCT FROM URL =================
-
-  useEffect(() => {
-    const path =
-      window.location.pathname
-
-    if (!path.startsWith('/products/')) {
-      return
-    }
-
-    const slug =
-      path
-        .replace('/products/', '')
-        .replace(/\/$/, '')
-
-    const product =
-      products.find(
-        (item) =>
-          createProductSlug(
-            item,
-            language
-          ) === slug
-      )
-
-    if (product) {
-      setSelectedProduct(product)
-      setSelectedQuantity(1)
-    }
-  }, [])
 
   // ================= CLOSE PRODUCT =================
 
@@ -3221,6 +3223,12 @@ function App() {
       </div>
     </>
   )
+}
+
+function App() {
+  const isAdminRoute = window.location.pathname.startsWith('/admin')
+
+  return isAdminRoute ? <Admin /> : <Store />
 }
 
 export default App
